@@ -5,21 +5,27 @@ import Image from "next/image";
 import { IconButton } from "./IconButton";
 import { Currency } from "./Currency";
 import { useRouter } from "next/navigation";
+import { MouseEventHandler } from "react";
+import usePreviewModal from "../../../hooks/use-preview-modal";
 
 interface ProductCard {
   data: Product;
 }
 
 export function ProductCard({ data }: ProductCard) {
+  const previewModal = usePreviewModal();
   const router = useRouter();
 
   const handleClick = () => {
     router.push(`/product/${data?.id}`);
   };
 
-  const onPreview = () => {
-    console.log("preview");
+  const onPreview: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation();
+
+    previewModal.onOpen(data);
   };
+
   const onAddToCart = () => {
     console.log("add to cart");
   };
